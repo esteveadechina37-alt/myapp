@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# Commandes utiles pour le système de commande client
+# Exécutable depuis PowerShell ou CMD
+
+@echo off
+echo ============================================================
+echo  COMMANDES UTILES - SYSTEME DE COMMANDE CLIENT
+echo ============================================================
+echo.
+echo. Lancer le serveur
+echo   php artisan serve
+echo.
+echo. Vérifier les routes
+echo   php artisan route:list | findstr "client"
+echo.
+echo. Vérifier les données
+echo   php test_db_count.php
+echo.
+echo. Effacer le cache
+echo   php artisan cache:clear
+echo   php artisan route:cache --clear
+echo.
+echo. Accéder à Tinker (shell interactif)
+echo   php artisan tinker
+echo.
+echo. Lancer les migrations
+echo   php artisan migrate
+echo.
+echo. Lancer les seeders
+echo   php artisan db:seed
+echo.
+echo. Réinitialiser la base
+echo   php artisan migrate:fresh --seed
+echo.
+echo. Voir les logs en temps réel
+echo   tail -f storage/logs/laravel.log
+echo.
+echo. Créer un utilisateur test (en Tinker)
+echo   App\Models\User::create(['name' => 'Test', 'email' => 'test@test.com', 'password' => bcrypt('password')])
+echo.
+echo. Créer un client (en Tinker)
+echo   App\Models\Client::create(['user_id' => 1, 'nom' => 'Test Client'])
+echo.
+echo. Lister les catégories
+echo   php artisan tinker
+echo   > App\Models\Categorie::all()
+echo.
+echo. Lister les plats
+echo   php artisan tinker
+echo   > App\Models\Plat::with('categorie')->get()
+echo.
+echo. Lister les commandes
+echo   php artisan tinker
+echo   > App\Models\Commande::with('client', 'lignesCommandes')->get()
+echo.
+echo. Créer une commande manuelle (en Tinker)
+echo   $commande = App\Models\Commande::create([
+echo     'client_id' => 1,
+echo     'numero' => 'CMD-20251229-1234',
+echo     'type_commande' => 'sur_place',
+echo     'table_id' => 1,
+echo     'statut' => 'enregistree',
+echo     'montant_total_ht' => 10500,
+echo     'montant_tva' => 2058,
+echo     'montant_total_ttc' => 12558
+echo   ])
+echo.
+echo. Déboguer le cart (en contrôleur)
+echo   dd(session('cart'));
+echo.
+echo. Déboguer l'authentification
+echo   dd(auth()->user());
+echo.
+echo. Déboguer les relations
+echo   dd($commande->lignesCommandes);
+echo.
+echo. Générer une facture
+echo   php artisan tinker
+echo   > $c = App\Models\Commande::find(1); $c->facture()->create(['montant_ttc' => $c->montant_total_ttc])
+echo.
+echo. Voir les erreurs
+echo   cat storage/logs/laravel.log
+echo.
+echo ============================================================
+echo.
+pause
