@@ -600,6 +600,44 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5><i class="fas fa-utensils"></i> Trial+</h5>
+                    <p>Votre restaurant préféré pour une expérience culinaire inoubliable.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5><i class="fas fa-link"></i> Navigation</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/apropos">À Propos</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/login">Connexion</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5><i class="fas fa-phone"></i> Contact</h5>
+                    <p><i class="fas fa-phone"></i> 01 23 45 67 89</p>
+                    <p><i class="fas fa-envelope"></i> contact@restaurant.fr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Rue de l'Indépendance, Porto-Novo, Bénin</p>
+                </div>
+                <div class="col-md-3">
+                    <h5><i class="fas fa-share-alt"></i> Nous Suivre</h5>
+                    <div class="socials">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Trial+. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Valider les mots de passe à l'inscription

@@ -31,6 +31,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact.index
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Routes d'authentification
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
@@ -178,4 +179,9 @@ Route::get('/test-categories', function () {
         ->get();
     
     return view('test-categories', compact('categories'));
+});
+
+// Route de diagnostic du système de commande
+Route::get('/test-commande-system', function () {
+    return view('test-commande-system');
 });

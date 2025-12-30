@@ -235,30 +235,36 @@
             font-weight: 600;
         }
 
-        footer {
-            background: #222;
+        footer,
+        .footer {
+            background: #333;
             color: white;
-            padding: 40px 0 20px;
+            padding: 50px 0 20px;
             margin-top: 60px;
         }
 
-        footer h5 {
+        footer h5,
+        .footer h5 {
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            color: #d32f2f;
         }
 
-        footer p {
-            color: #aaa;
+        footer p,
+        .footer p {
+            opacity: 0.8;
             margin-bottom: 10px;
         }
 
-        footer a {
-            color: #aaa;
+        footer a,
+        .footer a {
+            color: white;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        footer a:hover {
+        footer a:hover,
+        .footer a:hover {
             color: #d32f2f;
         }
 
@@ -269,36 +275,31 @@
         }
 
         .footer-links li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .socials {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .socials a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: #333;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
+            color: white;
+            text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 1.2rem;
         }
 
         .socials a:hover {
-            background: #d32f2f;
-            transform: scale(1.1);
-        }
-
-        .social-icon {
-            color: white;
+            color: #d32f2f;
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            color: #aaa;
+            padding-top: 30px;
+            border-top: 1px solid #555;
+            opacity: 0.7;
         }
 
          .modal-auth .modal-content {
@@ -632,7 +633,7 @@
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -657,15 +658,14 @@
                 <div class="col-md-3">
                     <h5><i class="fas fa-share-alt"></i> Nous Suivre</h5>
                     <div class="socials">
-                        <a href="#" title="Facebook"><i class="fab fa-facebook-f social-icon"></i></a>
-                        <a href="#" title="Twitter"><i class="fab fa-twitter social-icon"></i></a>
-                        <a href="#" title="Instagram"><i class="fab fa-instagram social-icon"></i></a>
-                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in social-icon"></i></a>
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Trial+. Tous droits réservés.</p>
+                <p>&copy; 2025 Trial+. Tous droits réservés.</p>
             </div>
         </div>
     </footer>

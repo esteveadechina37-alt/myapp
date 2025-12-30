@@ -224,19 +224,19 @@
                     
                     <div class="type-selector">
                         <label class="type-card" onclick="selectType(this, 'sur_place')">
-                            <input type="radio" name="type_commande" value="sur_place" required style="display: none;">
+                            <input type="radio" name="type_commande_radio" value="sur_place" style="display: none;">
                             <div class="type-icon">🪑</div>
                             <div>Sur place</div>
                         </label>
 
                         <label class="type-card" onclick="selectType(this, 'a_emporter')">
-                            <input type="radio" name="type_commande" value="a_emporter" required style="display: none;">
+                            <input type="radio" name="type_commande_radio" value="a_emporter" style="display: none;">
                             <div class="type-icon">🛍️</div>
                             <div>À emporter</div>
                         </label>
 
                         <label class="type-card" onclick="selectType(this, 'livraison')">
-                            <input type="radio" name="type_commande" value="livraison" required style="display: none;">
+                            <input type="radio" name="type_commande_radio" value="livraison" style="display: none;">
                             <div class="type-icon">🚚</div>
                             <div>Livraison</div>
                         </label>
@@ -250,7 +250,7 @@
                     <div class="table-grid">
                         @foreach ($tables as $table)
                             <label class="table-option">
-                                <input type="radio" name="table_id" value="{{ $table->id }}">
+                                <input type="radio" name="table_id_radio" value="{{ $table->id }}">
                                 <label>
                                     <i class="fas fa-table"></i>
                                     Table {{ $table->numero }}
@@ -265,8 +265,8 @@
                     <h3 class="section-title">Adresse de livraison</h3>
                     
                     <div class="form-group">
-                        <label for="adresse_livraison">Adresse complète</label>
-                        <textarea name="adresse_livraison" id="adresse_livraison" placeholder="Rue, numéro, code postal, ville..."></textarea>
+                        <label for="adresse_livraison_input">Adresse complète</label>
+                        <textarea name="adresse_livraison_input" id="adresse_livraison_input" placeholder="Rue, numéro, code postal, ville..."></textarea>
                     </div>
                 </div>
 
@@ -275,8 +275,8 @@
                     <h3 class="section-title">Commentaires spéciaux (optionnel)</h3>
                     
                     <div class="form-group">
-                        <label for="commentaires">Allergies, préférences, demandes...</label>
-                        <textarea name="commentaires" id="commentaires" placeholder="Ex: Sans oignon, allergique aux cacahuètes..."></textarea>
+                        <label for="commentaires_input">Allergies, préférences, demandes...</label>
+                        <textarea name="commentaires_input" id="commentaires_input" placeholder="Ex: Sans oignon, allergique aux cacahuètes..."></textarea>
                     </div>
                 </div>
 
@@ -299,14 +299,17 @@
                     </div>
                 </div>
 
-                <form method="POST" action="{{ route('client.store-order') }}" id="checkoutForm">
+                <!-- FORMULAIRE PRINCIPAL -->
+                <form method="POST" action="{{ route('client.store-order') }}" id="checkoutForm" class="w-100">
                     @csrf
-                    <input type="hidden" name="type_commande" id="typeInput">
-                    <input type="hidden" name="table_id" id="tableInput">
-                    <input type="hidden" name="adresse_livraison" id="adresseInput">
-                    <input type="hidden" name="commentaires" id="commentairesInput">
+                    
+                    <!-- Inputs réels du formulaire -->
+                    <input type="hidden" name="type_commande" id="type_commande_field" value="">
+                    <input type="hidden" name="table_id" id="table_id_field" value="">
+                    <input type="hidden" name="adresse_livraison" id="adresse_livraison_field" value="">
+                    <input type="hidden" name="commentaires" id="commentaires_field" value="">
 
-                    <button type="submit" class="btn-submit" id="submitBtn">
+                    <button type="submit" class="btn-submit w-100" id="submitBtn">
                         <i class="fas fa-check-circle"></i> Confirmer la commande
                     </button>
                 </form>
@@ -356,9 +359,14 @@
 
 @section('scripts')
 <script>
+    let selectedType = null;
+    let selectedTable = null;
+    let selectedAddress = '';
+    let selectedComments = '';
+
     function selectType(el, type) {
-        // Mettre à jour le type
-        document.getElementById('typeInput').value = type;
+        selectedType = type;
+        document.getElementById('type_commande_field').value = type;
         
         // Mettre à jour l'affichage
         document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
@@ -371,76 +379,74 @@
 
         if (type === 'sur_place') {
             document.getElementById('tableSection').classList.add('active');
-            document.querySelector('input[name="table_id"]').required = true;
         } else if (type === 'livraison') {
             document.getElementById('deliverySection').classList.add('active');
-            document.getElementById('adresse_livraison').required = true;
-        } else {
-            document.querySelector('input[name="table_id"]').required = false;
-            document.getElementById('adresse_livraison').required = false;
         }
     }
 
-    // Mise à jour des inputs cachés
+    // Mise à jour de la table sélectionnée
     document.addEventListener('change', function(e) {
-        if (e.target.name === 'table_id') {
-            document.getElementById('tableInput').value = e.target.value;
+        if (e.target.name === 'table_id_radio') {
+            selectedTable = e.target.value;
+            document.getElementById('table_id_field').value = selectedTable;
             document.querySelectorAll('.table-option').forEach(o => o.classList.remove('selected'));
             e.target.closest('.table-option').classList.add('selected');
         }
     });
 
+    // Gestion de la soumission du formulaire
     document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Récupérer le type sélectionné
-        const selectedRadio = document.querySelector('input[name="type_commande"]:checked');
-        let type = document.getElementById('typeInput').value;
+        console.log('Form submission started...');
+        console.log('Type:', selectedType);
+        console.log('Table:', selectedTable);
         
-        // Si pas de type défini, essayer le radio button
-        if (!type && selectedRadio) {
-            type = selectedRadio.value;
-            document.getElementById('typeInput').value = type;
-        }
-        
-        if (!type) {
-            alert('Sélectionnez un type de commande');
-            return;
+        // Valider le type de commande
+        if (!selectedType) {
+            alert('❌ Sélectionnez un type de commande (Sur place, À emporter ou Livraison)');
+            return false;
         }
 
-        // Récupérer la table si sur_place
-        let tableId = document.getElementById('tableInput').value;
-        if (!tableId && type === 'sur_place') {
-            const selectedTableRadio = document.querySelector('input[name="table_id"]:checked');
-            if (selectedTableRadio) {
-                tableId = selectedTableRadio.value;
-                document.getElementById('tableInput').value = tableId;
+        // Valider la table (si sur place)
+        if (selectedType === 'sur_place' && !selectedTable) {
+            alert('❌ Sélectionnez une table');
+            return false;
+        }
+
+        // Valider l'adresse (si livraison)
+        if (selectedType === 'livraison') {
+            const addressInput = document.getElementById('adresse_livraison_input');
+            selectedAddress = addressInput ? addressInput.value.trim() : '';
+            
+            if (!selectedAddress) {
+                alert('❌ Entrez une adresse de livraison');
+                return false;
             }
+            document.getElementById('adresse_livraison_field').value = selectedAddress;
         }
 
-        if (type === 'sur_place' && !tableId) {
-            alert('Sélectionnez une table pour "Sur place"');
-            return;
-        }
+        // Récupérer les commentaires
+        const commentInput = document.getElementById('commentaires_input');
+        selectedComments = commentInput ? commentInput.value.trim() : '';
+        document.getElementById('commentaires_field').value = selectedComments;
 
-        // Récupérer l'adresse si livraison
-        const adressInput = document.getElementById('adresse_livraison');
-        if (type === 'livraison' && !adressInput.value.trim()) {
-            alert('Entrez une adresse de livraison');
-            return;
-        }
-
-        // Remplir tous les inputs cachés
-        document.getElementById('adresseInput').value = adressInput ? adressInput.value : '';
-        document.getElementById('commentairesInput').value = document.getElementById('commentaires').value || '';
-
-        // Désactiver le bouton et afficher l'état de traitement
+        // Désactiver le bouton et afficher le traitement
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
+
+        // Afficher les valeurs avant soumission pour debugging
+        console.log('Submitting form with:');
+        console.log('type_commande:', document.getElementById('type_commande_field').value);
+        console.log('table_id:', document.getElementById('table_id_field').value);
+        console.log('adresse_livraison:', document.getElementById('adresse_livraison_field').value);
+        console.log('commentaires:', document.getElementById('commentaires_field').value);
 
         // Soumettre le formulaire
-        this.submit();
+        setTimeout(() => {
+            this.submit();
+        }, 200);
     });
 </script>
 @endsection
