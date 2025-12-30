@@ -1,24 +1,39 @@
 @extends('layouts.app')
 
-@section('title', 'Prise de Commande')
+@section('title', 'Commandes Serveur')
 
 @section('content')
-    <div class="container-fluid py-4">
-        <!-- Header -->
-        <div class="mb-4">
-            <h1 class="h3 fw-bold">
-                <i class="fas fa-utensils" style="color: #1976d2;"></i> Prise de Commande
-            </h1>
-            <p class="text-muted">Gestion des tables et commandes</p>
-        </div>
+<div class="container-fluid py-4">
+    <div class="mb-4">
+        <h1 class="h3 fw-bold">
+            <i class="fas fa-list-check" style="color: #1976d2;"></i> Gestion des Commandes
+        </h1>
+        <p class="text-muted">Suivi des commandes en salle</p>
+    </div>
 
-        <div class="row">
-            <!-- Plan des Tables -->
-            <div class="col-lg-7 mb-4">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%); color: white;">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0"><i class="fas fa-chair"></i> Plan des Tables</h6>
+    <!-- Filtres -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <select id="statutFilter" class="form-select" onchange="filterByStatus(this.value)">
+                <option value="">Tous les statuts</option>
+                <option value="en_preparation">En préparation</option>
+                <option value="prete">Prête</option>
+                <option value="servie">Servie</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="searchFilter" class="form-control" placeholder="Rechercher...">
+        </div>
+    </div>
+
+    <!-- Commandes par statut -->
+    @foreach(['en_preparation' => 'En Préparation', 'prete' => 'Prêtes à Servir', 'servie' => 'Servies'] as $status => $label)
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-{{ $status === 'en_preparation' ? 'warning' : ($status === 'prete' ? 'success' : 'info') }} text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-{{ $status === 'en_preparation' ? 'hourglass-half' : ($status === 'prete' ? 'check-circle' : 'utensils') }}"></i>
+                    {{ $label }} ({{ ${'commandes' . ucfirst(str_replace('_', '', $status))}->count() ?? 0 }})
+                </h5>
                             <span id="tablesStatut" class="badge bg-light text-dark">0/30 occupées</span>
                         </div>
                     </div>

@@ -67,6 +67,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/commandes', [AdminController::class, 'commandes'])->name('commandes');
         Route::get('/commandes/{id}', [AdminController::class, 'showCommande'])->name('commandes.show');
         Route::patch('/commandes/{id}/statut', [AdminController::class, 'updateStatutCommande'])->name('commandes.updateStatut');
+        Route::patch('/commandes/{id}', [AdminController::class, 'updateStatutCommande'])->name('commandes.updateStatus');
+        Route::delete('/commandes/{id}', [AdminController::class, 'deleteCommande'])->name('commandes.delete');
+        Route::get('/statistiques', [AdminController::class, 'statistiques'])->name('statistiques');
         Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
         Route::post('/categories', [AdminController::class, 'storeCategorie'])->name('categories.store');
         Route::patch('/categories/{id}', [AdminController::class, 'updateCategorie'])->name('categories.update');
@@ -144,7 +147,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [CuisinierController::class, 'dashboard'])->name('dashboard');
         Route::get('/commandes', [CuisinierController::class, 'consulterCommandes'])->name('commandes');
         Route::post('/commandes/{commande}/prete', [CuisinierController::class, 'marquerPrete'])->name('marquer-prete');
+        Route::post('/commandes/{id}/prete', [CuisinierController::class, 'marquerPrete']);
         Route::patch('/details/{detail}/statut', [CuisinierController::class, 'updateDetailStatut'])->name('update-detail-statut');
+    });
+
+    // Routes Paiement
+    Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('/{commande}', [PaymentController::class, 'show'])->name('show');
+        Route::post('/{commande}/process', [PaymentController::class, 'process'])->name('process');
+        Route::get('/history', [PaymentController::class, 'history'])->name('history');
+        Route::get('/{payment}/receipt', [PaymentController::class, 'receipt'])->name('receipt');
+        Route::post('/{payment}/refund', [PaymentController::class, 'refund'])->name('refund');
     });
 
     // Routes Livreur
@@ -177,6 +190,8 @@ Route::middleware('auth')->group(function () {
         
         // Paiement et factures
         Route::post('/payment/{commandeId}', [ClientOrderController::class, 'processPayment'])->name('payment');
+        Route::get('/payment/{commande}/show', [PaymentController::class, 'show'])->name('payment-form');
+        Route::post('/payment/{commande}/process', [PaymentController::class, 'process'])->name('process-payment');
         Route::get('/invoices', [ClientOrderController::class, 'invoices'])->name('invoices');
         Route::get('/invoice/{id}/download', [ClientOrderController::class, 'downloadInvoice'])->name('download-invoice');
         
