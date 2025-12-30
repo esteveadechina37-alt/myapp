@@ -1,6 +1,0 @@
-{
-  "name": "Gestion Restaurant",
-  "scripts": {
-    "postdeploy": "rm -rf bootstrap/cache/* storage/framework/cache/* storage/framework/views/* 2>/dev/null; chmod -R 775 storage bootstrap/cache; php artisan config:cache; php artisan migrate --force --no-interaction"
-  }
-}
