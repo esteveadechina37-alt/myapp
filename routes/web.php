@@ -19,6 +19,20 @@ use App\Http\Controllers\LivreurController;
 // Pages publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Diagnostic page
+Route::get('/diagnostic', function () {
+    return response()->json([
+        'status' => 'ok',
+        'app_env' => config('app.env'),
+        'app_debug' => config('app.debug'),
+        'db_driver' => config('database.default'),
+        'db_host' => config('database.connections.mysql.host'),
+        'db_database' => config('database.connections.mysql.database'),
+        'timestamp' => date('Y-m-d H:i:s'),
+        'php_version' => phpversion(),
+    ]);
+});
+
 Route::get('/apropos', function () {
     return view('apropos');
 })->name('apropos');
