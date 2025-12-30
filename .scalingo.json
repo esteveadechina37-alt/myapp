@@ -1,7 +1,6 @@
 {
   "name": "Gestion Restaurant",
-  "description": "Application de gestion de restaurant",
   "scripts": {
-    "postdeploy": "bash bin/bootstrap.sh"
+    "postdeploy": "rm -rf bootstrap/cache/* storage/framework/cache/* storage/framework/views/* 2>/dev/null; chmod -R 775 storage bootstrap/cache; php artisan config:cache; php artisan migrate --force --no-interaction"
   }
 }
