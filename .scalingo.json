@@ -2,56 +2,6 @@
   "name": "Gestion Restaurant",
   "description": "Application de gestion de restaurant",
   "scripts": {
-    "postdeploy": "php artisan migrate --force --no-interaction && php artisan config:cache && php artisan route:cache && php artisan view:cache"
-  },
-  "env": {
-    "APP_NAME": {
-      "description": "Nom de l'application",
-      "value": "Gestion Restaurant"
-    },
-    "APP_ENV": {
-      "description": "Environnement (production)",
-      "value": "production"
-    },
-    "APP_DEBUG": {
-      "description": "Debug mode",
-      "value": "false"
-    },
-    "APP_KEY": {
-      "description": "Clé de chiffrement Laravel",
-      "value": "base64:Kmpsn/3nTpZoZ5lahgpPdnlKmT5tiUjZVI1lXFEiSY8="
-    },
-    "APP_URL": {
-      "description": "URL de l'application",
-      "value": "https://myappname.osc-fr1.scalingo.io"
-    },
-    "DB_CONNECTION": {
-      "value": "mysql"
-    },
-    "DB_HOST": {
-      "description": "Hôte MySQL",
-      "value": ""
-    },
-    "DB_PORT": {
-      "value": "3306"
-    },
-    "DB_DATABASE": {
-      "description": "Nom de la base de données",
-      "value": ""
-    },
-    "DB_USERNAME": {
-      "description": "Utilisateur MySQL",
-      "value": ""
-    },
-    "DB_PASSWORD": {
-      "description": "Mot de passe MySQL",
-      "value": ""
-    },
-    "LOG_CHANNEL": {
-      "value": "stack"
-    },
-    "LOG_LEVEL": {
-      "value": "debug"
-    }
+    "postdeploy": "bash bin/bootstrap.sh"
   }
 }
