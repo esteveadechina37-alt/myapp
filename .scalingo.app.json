@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Setting permissions..."
+chmod -R 775 storage bootstrap/cache
+chmod -R 755 public
+
+echo "Clearing caches..."
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+
+echo "Deployment completed!"
